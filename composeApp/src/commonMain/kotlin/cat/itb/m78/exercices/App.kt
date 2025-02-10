@@ -1,15 +1,24 @@
 package cat.itb.m78.exercices
 
+import androidx.compose.foundation.interaction.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.input.*
+import androidx.compose.foundation.selection.*
+import androidx.compose.material.icons.*
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.semantics.*
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import cat.itb.m78.exercices.theme.*
 import androidx.navigation.compose.*
 import androidx.navigation.*
+import kotlinx.coroutines.delay
 import kotlinx.serialization.*
+import kotlin.math.roundToInt
 
 var rounds: Int = 10
 
@@ -72,6 +81,7 @@ fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
         }
     }
     if (current >= rounds) {
+        current = 9
         navigateToResultScreen(score)
     }
 }
@@ -79,13 +89,44 @@ fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
 @Composable
 fun SettingsScreen(navigateToMenuScreen: ()-> Unit) {
     val difficulties = listOf("Easy", "Normal", "Hard", "Nightmare")
+    var expanded by remember { mutableStateOf(false) }
+    val rounds = listOf(5,10,15)
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(rounds[1]) }
+    var timer by remember { mutableStateOf(30f) }
     /*var expanded by remember { mutableStateOf(false) }
     val textFieldState = rememberTextFieldState(difficulties[0])*/
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center) {
+        // Difficulty
         Row {
-            Text("Difficulty")
+            Text("Difficulty:")
+            Button(onClick = { expanded = true },
+                shape = RectangleShape) {
+                Text("Hola")
+            }
+            /*IconButton(onClick = { expanded = true }) {
+                Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
+            }*/
+            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                DropdownMenuItem(
+                    text = { Text("Edit") },
+                    onClick = { /* Handle edit! */ },
+                    leadingIcon = { Icon(Icons.Outlined.Edit, contentDescription = null) }
+                )
+                DropdownMenuItem(
+                    text = { Text("Settings") },
+                    onClick = { /* Handle settings! */ },
+                    leadingIcon = { Icon(Icons.Outlined.Settings, contentDescription = null) }
+                )
+                HorizontalDivider()
+                DropdownMenuItem(
+                    text = { Text("Send Feedback") },
+                    onClick = { /* Handle send feedback! */ },
+                    leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
+                    trailingIcon = { Text("F11", textAlign = TextAlign.Center) }
+                )
+            }
             /*ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = it }
@@ -110,14 +151,39 @@ fun SettingsScreen(navigateToMenuScreen: ()-> Unit) {
                 }
             }*/
         }
+        // Rounds
         Row {
-            Text("Rounds")
-            Text("Selection")
+            Text("Rounds:")
+            Spacer(Modifier.width(20.dp))
+            Column(Modifier.selectableGroup()) {
+                rounds.forEach { text ->
+                    Row(
+                        Modifier.selectable(
+                            selected = (text == selectedOption),
+                            onClick = { onOptionSelected(text) },
+                            role = Role.RadioButton
+                        )
+                    ) {
+                        RadioButton(
+                            selected = (text == selectedOption),
+                            onClick = null
+                        )
+                        Text(text.toString())
+                    }
+                }
+            }
         }
-        Row {
-            Text("Time per round")
-            Text("Slide")
-        }
+        Spacer(Modifier.height(20.dp))
+        // Time
+        Text("Time per round: ${timer.toInt()}")
+        Spacer(Modifier.height(10.dp))
+        Slider(
+            modifier = Modifier.semantics { contentDescription = "Localized Description" }.height(15.dp).width(300.dp),
+            value = timer,
+            valueRange = 5f..60f,
+            onValueChange = { timer = it }
+        )
+        Spacer(Modifier.height(50.dp))
         Button(onClick = navigateToMenuScreen){
             Text("Return to menu")
         }
