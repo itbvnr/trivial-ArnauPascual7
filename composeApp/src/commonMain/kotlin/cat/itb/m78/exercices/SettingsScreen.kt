@@ -1,5 +1,6 @@
 package cat.itb.m78.exercices
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
@@ -16,12 +17,17 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SettingsScreen(navigateToMenuScreen: ()-> Unit) {
     val difficulties = arrayOf("Easy", "Normal", "Hard", "Nightmare")
-    var diffSelected by remember { mutableStateOf(difficulties[1]) }
+    var diffSelected by remember { mutableStateOf(difficulty) }
     var expandedDropdown by remember { mutableStateOf(false) }
-    val rounds = arrayOf(5,10,15)
-    val (roundsSelected, onRoundsSelected) = remember { mutableStateOf(rounds[1]) }
-    var timer by remember { mutableStateOf(30f) }
+    val roundsList = arrayOf(5,10,15)
+    var (roundsSelected, onRoundsSelected) = remember { mutableStateOf(rounds) }
+    var timerSelected by remember { mutableStateOf(timer.toFloat()) }
 
+    if (diffSelected == difficulties[3]) {
+        roundsSelected = 30
+        timerSelected = 10f
+        nightmareDiffAlert()
+    }
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center) {
@@ -52,7 +58,7 @@ fun SettingsScreen(navigateToMenuScreen: ()-> Unit) {
             Text("Rounds:")
             Spacer(Modifier.width(20.dp))
             Column(Modifier.selectableGroup()) {
-                rounds.forEach { round ->
+                roundsList.forEach { round ->
                     Row(
                         Modifier.selectable(
                             selected = (round == roundsSelected),
@@ -71,17 +77,40 @@ fun SettingsScreen(navigateToMenuScreen: ()-> Unit) {
         }
         Spacer(Modifier.height(20.dp))
         // Time
-        Text("Time per round: ${timer.toInt()}")
+        Text("Time per round: ${timerSelected.toInt()}")
         Spacer(Modifier.height(10.dp))
         Slider(
             modifier = Modifier.semantics { contentDescription = "Localized Description" }.height(15.dp).width(300.dp),
-            value = timer,
+            value = timerSelected,
             valueRange = 5f..60f,
-            onValueChange = { timer = it }
+            onValueChange = { timerSelected = it }
         )
         Spacer(Modifier.height(50.dp))
-        Button(onClick = navigateToMenuScreen){
+        // Return Button
+        Button(onClick = {
+            difficulty = diffSelected
+            rounds = roundsSelected
+            timer = timerSelected.toInt()
+            navigateToMenuScreen()
+        }){
             Text("Return to menu")
         }
+    }
+}
+
+@Composable
+fun nightmareDiffAlert() {
+    var nightmareAlert by remember { mutableStateOf(true) }
+    if (nightmareAlert) {
+        AlertDialog(
+            onDismissRequest = {
+                nightmareAlert = false
+            },
+            title = { Text(text = "Nightmare Difficulty Selected") },
+            text = { Text(text = "This difficulty is the hardest. Nightmare difficulty sets the rounds to 30 and the timer to 10.") },
+            confirmButton = {
+                TextButton(onClick = { nightmareAlert = false }) { Text("Ok") }
+            }
+        )
     }
 }

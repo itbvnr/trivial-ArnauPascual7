@@ -1,18 +1,31 @@
 package cat.itb.m78.exercices
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 
 @Composable
 fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
     var current: Int by remember { mutableStateOf(0) }
     var score: Int by remember { mutableStateOf(0) }
+    var timeLeft by remember { mutableFloatStateOf(timer.toFloat()) }
+    val animatedProgress by animateFloatAsState(
+        targetValue = timeLeft,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+    )
+    LaunchedEffect(key1 = timeLeft) {
+        while (timeLeft > 0) {
+            delay(1000L)
+            timeLeft--
+            println(timeLeft)
+        }
+    }
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center){
@@ -36,9 +49,20 @@ fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
                 Text("Answer4")
             }
         }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            LinearProgressIndicator(
+                progress = { animatedProgress },
+            )
+            /*Slider(
+                modifier = Modifier.width(300.dp),
+                value = progress,
+                valueRange = 0f..1f,
+                onValueChange = { progress = it },
+            )*/
+        }
     }
-    if (current >= rounds) {
-        current = 9
+    if (current >= rounds || timeLeft <= 0) {
+        current = rounds - 1
         navigateToResultScreen(score)
     }
 }

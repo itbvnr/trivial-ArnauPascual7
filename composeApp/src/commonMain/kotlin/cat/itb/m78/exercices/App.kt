@@ -1,19 +1,14 @@
 package cat.itb.m78.exercices
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.semantics.*
-import androidx.compose.ui.unit.*
 import cat.itb.m78.exercices.theme.*
 import androidx.navigation.compose.*
 import androidx.navigation.*
 import kotlinx.serialization.*
 
+var difficulty: String = "Normal"
 var rounds: Int = 10
+var timer: Int = 30
 
 @Composable
 internal fun App() = AppTheme {
@@ -85,7 +80,7 @@ object Destination {
     @Serializable
     data object MenuScreen
     @Serializable
-    data class GameScreen(val difficulty: String, val rounds: Int, val timer: Int)
+    data object GameScreen
     @Serializable
     data object SettingsScreen
     @Serializable
@@ -115,16 +110,11 @@ fun NavScreen() {
                 navigateToSettingsScreen = { navController.navigate(Destination.SettingsScreen) }
             )
         }
-        composable<Destination.GameScreen> { backStack ->
-            val difficulty = backStack.toRoute<Destination.GameScreen>().difficulty
-            val rounds = backStack.toRoute<Destination.GameScreen>().rounds
-            val timer = backStack.toRoute<Destination.GameScreen>().timer
+        composable<Destination.GameScreen> {
             GameScreen { navController.navigate(Destination.ResultScreen(it)) }
         }
         composable<Destination.SettingsScreen> {
-            SettingsScreen(
-                navigateToMenuScreen = { navController.navigate(Destination.MenuScreen) }
-            )
+            SettingsScreen{ navController.navigate(Destination.MenuScreen) }
         }
         composable<Destination.ResultScreen> { backStack ->
             val score = backStack.toRoute<Destination.ResultScreen>().score
