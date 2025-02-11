@@ -1,24 +1,17 @@
 package cat.itb.m78.exercices
 
-import androidx.compose.foundation.interaction.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.*
-import androidx.compose.material.icons.*
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.semantics.*
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import cat.itb.m78.exercices.theme.*
 import androidx.navigation.compose.*
 import androidx.navigation.*
-import kotlinx.coroutines.delay
 import kotlinx.serialization.*
-import kotlin.math.roundToInt
 
 var rounds: Int = 10
 
@@ -39,167 +32,6 @@ fun Screen1(navigateToScreen2: ()-> Unit){
         }
     }
 }*/
-@Composable
-fun MenuScreen(navigateToGameScreen: ()-> Unit, navigateToSettingsScreen: ()-> Unit) {
-    Column(modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center) {
-        Button(onClick = navigateToGameScreen){
-            Text("New Game")
-        }
-        Button(onClick = navigateToSettingsScreen){
-            Text("Settings")
-        }
-    }
-}
-@Composable
-fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
-    var current: Int by remember { mutableStateOf(0) }
-    var score: Int by remember { mutableStateOf(0) }
-    Column(modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center){
-        Text("Round ${current + 1}/$rounds")
-        Spacer(Modifier.width(50.dp))
-        Text("Question?", fontSize = 20.sp)
-        Row {
-            Button(onClick = { current ++
-            score ++}){
-                Text("Answer1")
-            }
-            Button(onClick = { current ++ }){
-                Text("Answer2")
-            }
-        }
-        Row {
-            Button(onClick = { current ++ }){
-                Text("Answer3")
-            }
-            Button(onClick = { current ++ }){
-                Text("Answer4")
-            }
-        }
-    }
-    if (current >= rounds) {
-        current = 9
-        navigateToResultScreen(score)
-    }
-}
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SettingsScreen(navigateToMenuScreen: ()-> Unit) {
-    val difficulties = listOf("Easy", "Normal", "Hard", "Nightmare")
-    var expanded by remember { mutableStateOf(false) }
-    val rounds = listOf(5,10,15)
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(rounds[1]) }
-    var timer by remember { mutableStateOf(30f) }
-    /*var expanded by remember { mutableStateOf(false) }
-    val textFieldState = rememberTextFieldState(difficulties[0])*/
-    Column(modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center) {
-        // Difficulty
-        Row {
-            Text("Difficulty:")
-            Button(onClick = { expanded = true },
-                shape = RectangleShape) {
-                Text("Hola")
-            }
-            /*IconButton(onClick = { expanded = true }) {
-                Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
-            }*/
-            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                DropdownMenuItem(
-                    text = { Text("Edit") },
-                    onClick = { /* Handle edit! */ },
-                    leadingIcon = { Icon(Icons.Outlined.Edit, contentDescription = null) }
-                )
-                DropdownMenuItem(
-                    text = { Text("Settings") },
-                    onClick = { /* Handle settings! */ },
-                    leadingIcon = { Icon(Icons.Outlined.Settings, contentDescription = null) }
-                )
-                HorizontalDivider()
-                DropdownMenuItem(
-                    text = { Text("Send Feedback") },
-                    onClick = { /* Handle send feedback! */ },
-                    leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
-                    trailingIcon = { Text("F11", textAlign = TextAlign.Center) }
-                )
-            }
-            /*ExposedDropdownMenuBox(
-                expanded = expanded,
-                onExpandedChange = { expanded = it }
-            ) {
-                Button(onClick = { expanded = true }) {
-                    Text(textFieldState.toString())
-                }
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    difficulties.forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(option) },
-                            onClick = {
-                                textFieldState.setTextAndPlaceCursorAtEnd(option)
-                                expanded = false
-                            },
-                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                        )
-                    }
-                }
-            }*/
-        }
-        // Rounds
-        Row {
-            Text("Rounds:")
-            Spacer(Modifier.width(20.dp))
-            Column(Modifier.selectableGroup()) {
-                rounds.forEach { text ->
-                    Row(
-                        Modifier.selectable(
-                            selected = (text == selectedOption),
-                            onClick = { onOptionSelected(text) },
-                            role = Role.RadioButton
-                        )
-                    ) {
-                        RadioButton(
-                            selected = (text == selectedOption),
-                            onClick = null
-                        )
-                        Text(text.toString())
-                    }
-                }
-            }
-        }
-        Spacer(Modifier.height(20.dp))
-        // Time
-        Text("Time per round: ${timer.toInt()}")
-        Spacer(Modifier.height(10.dp))
-        Slider(
-            modifier = Modifier.semantics { contentDescription = "Localized Description" }.height(15.dp).width(300.dp),
-            value = timer,
-            valueRange = 5f..60f,
-            onValueChange = { timer = it }
-        )
-        Spacer(Modifier.height(50.dp))
-        Button(onClick = navigateToMenuScreen){
-            Text("Return to menu")
-        }
-    }
-}
-@Composable
-fun ResultScreen(score: Int, navigateToMenuScreen: () -> Unit) {
-    Column(modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center) {
-        Text("Score: $score", fontSize = 20.sp)
-        Button(onClick = navigateToMenuScreen) {
-            Text("Return to menu")
-        }
-    }
-}
 /*@Composable
 fun Screen2(navigateToScreen3: (String)-> Unit){
     var text by remember{ mutableStateOf("") }
@@ -253,7 +85,7 @@ object Destination {
     @Serializable
     data object MenuScreen
     @Serializable
-    data object GameScreen
+    data class GameScreen(val difficulty: String, val rounds: Int, val timer: Int)
     @Serializable
     data object SettingsScreen
     @Serializable
@@ -283,7 +115,10 @@ fun NavScreen() {
                 navigateToSettingsScreen = { navController.navigate(Destination.SettingsScreen) }
             )
         }
-        composable<Destination.GameScreen> {
+        composable<Destination.GameScreen> { backStack ->
+            val difficulty = backStack.toRoute<Destination.GameScreen>().difficulty
+            val rounds = backStack.toRoute<Destination.GameScreen>().rounds
+            val timer = backStack.toRoute<Destination.GameScreen>().timer
             GameScreen { navController.navigate(Destination.ResultScreen(it)) }
         }
         composable<Destination.SettingsScreen> {
