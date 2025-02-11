@@ -14,15 +14,15 @@ import kotlinx.coroutines.delay
 fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
     var current: Int by remember { mutableStateOf(0) }
     var score: Int by remember { mutableStateOf(0) }
-    var timeLeft by remember { mutableFloatStateOf(timer.toFloat()) }
+    var timeLeft by remember { mutableFloatStateOf(timer.toFloat() / 100) }
     val animatedProgress by animateFloatAsState(
-        targetValue = timeLeft,
+        targetValue = timeLeft / timer * 100,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
     )
     LaunchedEffect(key1 = timeLeft) {
         while (timeLeft > 0) {
             delay(1000L)
-            timeLeft--
+            timeLeft -= 0.01f
             println(timeLeft)
         }
     }
