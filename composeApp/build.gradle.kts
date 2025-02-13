@@ -57,6 +57,12 @@ kotlin {
             implementation(libs.kotlinx.datetime)
         }
 
+        /*// Agregat
+        val commonMain by getting {
+            resources.srcDirs("src/commonMain/composeResources")
+        }
+        // -----*/
+
         commonTest.dependencies {
             implementation(kotlin("test"))
             @OptIn(ExperimentalComposeLibrary::class)
@@ -102,6 +108,7 @@ android {
 
 //https://developer.android.com/develop/ui/compose/testing#setup
 dependencies {
+    implementation(libs.identity.jvm)
     androidTestImplementation(libs.androidx.uitest.junit4)
     debugImplementation(libs.androidx.uitest.testManifest)
 }
