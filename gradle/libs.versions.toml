@@ -2,7 +2,7 @@
 
 kotlin = "2.1.0-firework.32"
 compose = "1.7.1"
-agp = "8.6.1"
+agp = "8.7.3"
 androidx-activityCompose = "1.9.3"
 androidx-uiTest = "1.7.4"
 kermit = "2.0.5"
@@ -13,6 +13,7 @@ androidx-navigation = "2.8.0-alpha10"
 kotlinx-serialization = "1.7.3"
 kotlinx-datetime = "0.6.1"
 hotreload = "1.0.0-dev.32.1"
+identityJvm = "202411.1"
 
 [libraries]
 
@@ -38,6 +39,7 @@ androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycl
 androidx-navigation-composee = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+identity-jvm = { group = "com.android.identity", name = "identity-jvm", version.ref = "identityJvm" }
 
 [plugins]
 

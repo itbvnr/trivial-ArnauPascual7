@@ -5,4 +5,9 @@ plugins {
     alias(libs.plugins.compose.hotreload).apply(false)
     alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.kotlinx.serialization).apply(false)
+
+    /*// Agregat
+    kotlin("multiplatform")
+    id("org.jetbrains.compose")
+    // -----*/
 }
