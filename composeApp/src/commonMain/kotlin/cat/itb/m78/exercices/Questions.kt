@@ -9,8 +9,8 @@ val questions: List<Question> = listOf(
         listOf(
             Answer("Answer 11", true),
             Answer("Answer 12", false),
-            Answer("Answer 12", false),
-            Answer("Answer 12", false)
+            Answer("Answer 13", false),
+            Answer("Answer 14", false)
         ).shuffled()
     ),
     Question(
@@ -18,8 +18,8 @@ val questions: List<Question> = listOf(
         listOf(
             Answer("Answer 21", true),
             Answer("Answer 22", false),
-            Answer("Answer 22", false),
-            Answer("Answer 22", false)
+            Answer("Answer 23", false),
+            Answer("Answer 24", false)
         ).shuffled()
     ),
     Question(
@@ -27,8 +27,8 @@ val questions: List<Question> = listOf(
         listOf(
             Answer("Answer 31", true),
             Answer("Answer 32", false),
-            Answer("Answer 32", false),
-            Answer("Answer 32", false)
+            Answer("Answer 33", false),
+            Answer("Answer 34", false)
         ).shuffled()
     )
 )
