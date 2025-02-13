@@ -9,8 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import m78exercices.composeapp.generated.resources.*
-import org.jetbrains.compose.resources.*
 import kotlin.random.Random
 
 //https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
@@ -33,14 +31,23 @@ fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center){
-        val random: Int = Random.nextInt(0, rounds)
+        val random: Int = Random.nextInt(0, 3)
+        val question: Question = questions[random]
         Text("Round ${current + 1}/$rounds")
         Spacer(Modifier.width(50.dp))
-        Text("Question?", fontSize = 20.sp)
-        Row {
+        Text(question.statement, fontSize = 20.sp)
+        questions[random].answers.forEach { answer ->
             Button(onClick = {
                 current ++
-                score ++
+                if (answer.correct) score ++
+                timeLeft = timer.toFloat() / 100
+            }){
+                Text(answer.text)
+            }
+        }
+        /*Row {
+            Button(onClick = {
+                current ++
                 timeLeft = timer.toFloat() / 100
             }){
                 Text("Answer1")
@@ -65,7 +72,7 @@ fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
             }){
                 Text("Answer4")
             }
-        }
+        }*/
         LinearProgressIndicator(
             progress = { animatedProgress },
         )
