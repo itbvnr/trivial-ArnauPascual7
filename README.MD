@@ -1,4 +1,32 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/1g8PcTQH)
+
+# Funcionalitats fetes
+
+## Menu Screen
+La pantalla funciona correctament i conté tots els components.
+
+## Pregunta resposta funcional
+Les preguntes i respostes apareixen correctament en la pantalla de joc.
+
+## Look and Feel
+Visualment és agrdable de veure i el canvi entre pantalles és suau.
+
+## Posició resposta correcte aleatòria
+Cada resposta de cada pregunta està en una posició aleatòria cada vegada que s'executa l'aplicació.
+
+## Settings
+Les configuracións de dificultat, rondes i temps per ronda funcionen correctament.
+Segons la dificultat les preguntes són més fàcils o més difícils.
+Les rondes poden ser personalitzades, entre els valors de 5, 10 i 15.
+Hi ha un temporitzador amb una barra de progres que va baixant indicant el temps restant per ronda.
+
+## Generació de preguntes aleatòries
+Les preguntes són aleatòries cada vegada que s'executa l'apliació.
+
+## Compte enrere
+Una barra de progres en la pantalla de joc indica el temps restant per ronda que queda, un cop acaba passa a la seguent ronda, encara que no s'hagui respòs a la pregunta.
+El temps es reinicialitza cada vegada que es canvia de ronda.
+
 # Template for Compose Multiplatform DAM78 exercices
 
 Project to be used as a template for DAM78 exercices
