@@ -6,16 +6,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import kotlin.random.Random
-
-//https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
 
 @Composable
 fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
-    var current: Int by remember { mutableStateOf(0) }
+    var currentRound: Int by remember { mutableStateOf(0) }
     var score: Int by remember { mutableStateOf(0) }
     var timeLeft by remember { mutableFloatStateOf(timer.toFloat() / 100) }
     val animatedProgress by animateFloatAsState(
@@ -26,66 +25,45 @@ fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
         while (timeLeft > 0) {
             delay(1000L)
             timeLeft -= 0.01f
+            if (timeLeft < 0) {
+                currentRound ++
+                timeLeft = timer.toFloat() / 100
+            }
         }
+    }
+    if (currentRound >= rounds) {
+        currentRound = rounds - 1
+        navigateToResultScreen(score)
     }
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center){
-        val random: Int = Random.nextInt(0, 3)
-        val question: Question = questions[random]
-        Text("Round ${current + 1}/$rounds")
-        Spacer(Modifier.width(50.dp))
-        Text(question.statement, fontSize = 20.sp)
-        questions[random].answers.forEach { answer ->
+        val questions: List<Question> = questionsSelect()
+        Text("Round ${currentRound + 1}/$rounds")
+        Spacer(Modifier.height(20.dp))
+        Text(questions[currentRound].statement, fontSize = 20.sp, textAlign = TextAlign.Center)
+        Spacer(Modifier.height(20.dp))
+        questions[currentRound].answers.forEach { answer ->
             Button(onClick = {
-                current ++
+                currentRound ++
                 if (answer.correct) score ++
                 timeLeft = timer.toFloat() / 100
-            }){
+            },
+                shape = RectangleShape
+            ){
                 Text(answer.text)
             }
         }
-        /*Row {
-            Button(onClick = {
-                current ++
-                timeLeft = timer.toFloat() / 100
-            }){
-                Text("Answer1")
-            }
-            Button(onClick = {
-                current ++
-                timeLeft = timer.toFloat() / 100
-            }){
-                Text("Answer2")
-            }
-        }
-        Row {
-            Button(onClick = {
-                current ++
-                timeLeft = timer.toFloat() / 100
-            }){
-                Text("Answer3")
-            }
-            Button(onClick = {
-                current ++
-                timeLeft = timer.toFloat() / 100
-            }){
-                Text("Answer4")
-            }
-        }*/
+        Spacer(Modifier.height(20.dp))
         LinearProgressIndicator(
-            progress = { animatedProgress },
+            progress = { animatedProgress }
         )
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    }
+}
 
-        }
-    }
-    if (timeLeft <= 0) {
-        current ++
-        timeLeft = timer.toFloat() / 100
-    }
-    if (current >= rounds) {
-        current = rounds - 1
-        navigateToResultScreen(score)
-    }
+fun questionsSelect(): List<Question> {
+    if (difficulty == "Normal") return normalQuestions
+    if (difficulty == "Hard") return hardQuestions
+    if (difficulty == "Nightmare") return nightmareQuestions + hardQuestions
+    return easyQuestions
 }
