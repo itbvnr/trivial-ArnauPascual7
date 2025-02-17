@@ -4,9 +4,13 @@
 
 ## Menu Screen
 La pantalla funciona correctament i conté tots els components.
+Butó per a començar el joc. que t'envia a la pantalla de joc.
+Butó per a la configuració del joc, que t'encia a la pantalla de configuració.
 
 ## Pregunta resposta funcional
 Les preguntes i respostes apareixen correctament en la pantalla de joc.
+Cada ronda té una pregunta amb 4 possibles respostes, de les quals només una és correcte, al seleccionar una es passa a la següent ronda, i si no queden rondes s'acaba el joc i t'envia a la pantalla final.
+En la pantalla final es pot veure la puntuació realitzada que correspon a les preguntes encertades.
 
 ## Look and Feel
 Visualment és agrdable de veure i el canvi entre pantalles és suau.
