@@ -4,8 +4,8 @@
 
 ## Menu Screen
 La pantalla funciona correctament i conté tots els components.
-Butó per a començar el joc. que t'envia a la pantalla de joc.
-Butó per a la configuració del joc, que t'encia a la pantalla de configuració.
+Butó per a començar el joc, que t'envia a la pantalla de joc.
+Butó per a la configuració del joc, que t'envia a la pantalla de configuració.
 
 ## Pregunta resposta funcional
 Les preguntes i respostes apareixen correctament en la pantalla de joc.
