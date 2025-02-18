@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Exercicis DAMv78</string>
+    <string name="q1">Question1</string>
+    <string-array name="a1">
+        <item>Answer1</item>
+        <item>Answer2</item>
+        <item>Answer3</item>
+        <item>Answer4</item>
+    </string-array>
+    <string name="q2">Question2</string>
+    <string-array name="a2">
+        <item>Answer1</item>
+        <item>Answer2</item>
+        <item>Answer3</item>
+        <item>Answer4</item>
+    </string-array>
+    <string name="q3">Question3</string>
+    <string-array name="a3">
+        <item>Answer1</item>
+        <item>Answer2</item>
+        <item>Answer3</item>
+        <item>Answer4</item>
+    </string-array>
 </resources>

@@ -1,0 +1,9 @@
+<test>
+    <question>
+        <statement>Question1</statement>
+        <answer correct="true">Answer1</answer>
+        <answer correct="false">Answer2</answer>
+        <answer correct="false">Answer3</answer>
+        <answer correct="false">Answer4</answer>
+    </question>
+</test>
