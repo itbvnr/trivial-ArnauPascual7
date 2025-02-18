@@ -25,7 +25,7 @@ fun GameScreen(navigateToResultScreen: (Int)-> Unit) {
         while (timeLeft > 0) {
             delay(1000L)
             timeLeft -= 0.01f
-            if (timeLeft < 0) {
+            if (timeLeft <= 0) {
                 currentRound ++
                 timeLeft = timer.toFloat() / 100
             }
